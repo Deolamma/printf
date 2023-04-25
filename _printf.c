@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdarg.h>
+#include <stddef.h>
 /**
  * vprintf - function that helps us detrmine if we have hit
  * a format specifier or regular text and acts on whatever state
@@ -61,6 +62,8 @@ int _printf(const char *format, ...)
 	int rval;
 	va_list args;
 
+	if (format == NULL)
+		return (-1);
 	va_start(args, format);
 	rval = vprintf(format, args);
 	va_end(args);
