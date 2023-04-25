@@ -34,6 +34,7 @@ int vprintf(const char *fmt, va_list args)
 				}
 			case 's': {
 					const char *s = va_arg(args, const char *);
+
 					while (*s)
 					{
 						_putchar(*s++);
