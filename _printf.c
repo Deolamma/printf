@@ -44,45 +44,29 @@ int print_string(va_list args)
  */
 int vprintf(const char *fmt, va_list args)
 {
-	int state = 0;
+	int state = 1;
 	int rval = 0;
 
-	while (*fmt)
+	if (state == 1)
 	{
-		if (state == 0)
+		switch (*fmt)
 		{
-			if (*fmt == '%')
-			{
-				state = 1;
-			} else
-			{
-				_putchar(*fmt);
-				rval++;
-			}
-		} else if (state == 1)
-		{
-			switch (*fmt)
-			{
 			case 'c': {
-					rval = print_char(args);
-					break;
+				rval = print_char(args);
+				break;
 				}
 			case 's': {
-					rval = print_string(args);
-					break;
+				rval = print_string(args);
+				break;
 				}
 			default: {
-					 state = 0;
-					 _putchar('%');
-					_putchar(*fmt);
-					rval += 2;
-					break;
+				state = 0;
+				_putchar('%');
+				_putchar(*fmt);
+				rval++;
+				break;
 				}
-
-			}
-			state = 0;
 		}
-		fmt++;
 	}
 	return (rval);
 }
@@ -97,12 +81,31 @@ int vprintf(const char *fmt, va_list args)
 int _printf(const char *format, ...)
 {
 	int rval;
+	int state = 0;
 	va_list args;
 
 	if (format == NULL)
 		return (-1);
 	va_start(args, format);
-	rval = vprintf(format, args);
+	while (*format)
+	{
+		if (state == 0)
+		{
+			if (*format == '%')
+			{
+				state = 1;
+			} else
+			{
+				_putchar(*format);
+				rval++;
+			}
+		} else if (state == 1)
+		{
+			rval += vprintf(format, args);
+			state = 0;
+		}
+		format++;
+	}
 	va_end(args);
 	printf("%d\n", rval);
 	return (rval);
