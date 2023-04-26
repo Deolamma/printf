@@ -72,8 +72,10 @@ int vprintf(const char *fmt, va_list args)
 					break;
 				}
 			default: {
+					 state = 0;
+					 _putchar('%');
 					_putchar(*fmt);
-					rval++;
+					rval += 2;
 					break;
 				}
 
@@ -102,6 +104,7 @@ int _printf(const char *format, ...)
 	va_start(args, format);
 	rval = vprintf(format, args);
 	va_end(args);
+	printf("%d\n", rval);
 	return (rval);
 }
 
