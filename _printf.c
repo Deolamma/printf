@@ -1,17 +1,51 @@
 #include "main.h"
+#include <stdio.h>
 #include <stdarg.h>
 #include <stddef.h>
 /**
- * vprintf - function that helps us detrmine if we have hit
- * a format specifier or regular text and acts on whatever state
+ * print_char - prints the char assigned to the %c specifier
+ * @args: list of arguments in our case char value
+ * Return: returns an int value for the number of char
+ */
+int print_char(va_list args)
+{
+	char ch;
+	int rval = 0;
+
+	ch = va_arg(args, int);
+	_putchar(ch);
+	rval++;
+	return (rval);
+}
+/**
+ * print_string - prints the string assigned to the %s specifier
+ * @args: list of arguments in our case list of strings
+ * Return: returns an int value for the number of char in string
+ */
+int print_string(va_list args)
+{
+	int rval = 0;
+	const char *s = va_arg(args, const char *);
+
+	while (*s)
+	{
+		_putchar(*s++);
+		rval++;
+	}
+	return (rval);
+}
+
+
+/**
+ * vprintf - function that helps us detrmine if we have hit a %
  * @fmt: format elps determine when we hit a format specifier
  * @args: gives us a list of our unknown argument
  * Return: returns an int value
  */
 int vprintf(const char *fmt, va_list args)
 {
-	int state;
-	char ch;
+	int state = 0;
+	int rval = 0;
 
 	while (*fmt)
 	{
@@ -23,31 +57,32 @@ int vprintf(const char *fmt, va_list args)
 			} else
 			{
 				_putchar(*fmt);
+				rval++;
 			}
 		} else if (state == 1)
 		{
 			switch (*fmt)
 			{
 			case 'c': {
-					ch = va_arg(args, int);
-					_putchar(ch);
+					rval = print_char(args);
 					break;
 				}
 			case 's': {
-					const char *s = va_arg(args, const char *);
-
-					while (*s)
-					{
-						_putchar(*s++);
-					}
+					rval = print_string(args);
 					break;
 				}
+			default: {
+					_putchar(*fmt);
+					rval++;
+					break;
+				}
+
 			}
 			state = 0;
 		}
 		fmt++;
 	}
-	return (*(fmt));
+	return (rval);
 }
 
 /**

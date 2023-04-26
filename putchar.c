@@ -1,5 +1,5 @@
 #include "main.h"
-#include <unistd.h>
+#include <stdio.h>
 /**
  * _putchar - prints out only 1 char. to stdout
  * @c: character to be printed out to stdout
@@ -7,6 +7,6 @@
  */
 int _putchar(int c)
 {
-	return (write(1, &c, 0));
+	return (putchar(c));
 }
 
