@@ -2,6 +2,16 @@
 #include <stdarg.h>
 #include <stddef.h>
 /**
+ * _pstr - prints string
+ * @str: pointer to a char array
+ * Return: nothing
+ */
+void _pstr(char *str)
+{
+	while (*str)
+		_putchar(*str++);
+}
+/**
  * print_char - prints the char assigned to the %c specifier
  * @args: list of arguments in our case char value
  * Return: nothing
@@ -16,16 +26,22 @@ void print_char(va_list args)
 /**
  * print_string - prints the string assigned to the %s specifier
  * @args: list of arguments in our case list of strings
- * Return: nothing
+ * Return: int value
  */
-void print_string(va_list args)
+int print_string(va_list args)
 {
 	const char *s = va_arg(args, const char *);
 
+	if (s == NULL)
+	{
+		_pstr("(null)");
+		return (-1);
+	}
 	while (*s)
 	{
 		_putchar(*s++);
 	}
+	return (0);
 }
 /**
  * _printf - prints out different data types based on format specifiers
