@@ -12,6 +12,41 @@ void _pstr(char *str)
 		_putchar(*str++);
 }
 /**
+ * print_int - prints an int value based on its format specifier
+ * @args: this is the list of argument gotten from va_list
+ * return: return nothing
+ */
+void print_int(va_list args)
+{
+	int argn = va_arg(args, int);
+	int d[20];
+	int a;
+	int b;
+	int is_negative = 0;
+
+	if (argn < 0)
+	{
+		is_negative = 1;
+		argn = -argn;
+	}
+	if (argn == 0)
+		_putchar('0');
+	a = 0;
+	while (argn > 0)
+	{
+		d[a++] = argn % 10;
+		argn /= 10;
+	}
+	if (is_negative)
+	{
+		_putchar('-');
+	}
+	for (b = a - 1; b >= 0; b--)
+	{
+		_putchar('0' + d[b]);
+	}
+}
+/**
  * print_char - prints the char assigned to the %c specifier
  * @args: list of arguments in our case char value
  * Return: nothing
@@ -76,6 +111,10 @@ int _printf(const char *format, ...)
 		} else if (format[i + 1] == 's')
 		{
 			print_string(args);
+			i++;
+		} else if (format[i + 1] == 'd' || format[i + 1] == 'i')
+		{
+			print_int(args);
 			i++;
 		} else if (format[i + 1] == '%')
 		{
