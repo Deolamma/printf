@@ -7,6 +7,13 @@
  */
 int _putchar(int c)
 {
-	return (putchar(c));
+	if (c == '\n')
+	{
+		putchar('\n');
+	} else
+	{
+		putchar(c);
+	}
+	return (0);
 }
 

@@ -5,72 +5,29 @@
 /**
  * print_char - prints the char assigned to the %c specifier
  * @args: list of arguments in our case char value
- * Return: returns an int value for the number of char
+ * Return: nothing
  */
-int print_char(va_list args)
+void print_char(va_list args)
 {
 	char ch;
-	int rval = 0;
 
 	ch = va_arg(args, int);
 	_putchar(ch);
-	rval++;
-	return (rval);
 }
 /**
  * print_string - prints the string assigned to the %s specifier
  * @args: list of arguments in our case list of strings
- * Return: returns an int value for the number of char in string
+ * Return: nothing
  */
-int print_string(va_list args)
+void print_string(va_list args)
 {
-	int rval = 0;
 	const char *s = va_arg(args, const char *);
 
 	while (*s)
 	{
 		_putchar(*s++);
-		rval++;
 	}
-	return (rval);
 }
-
-
-/**
- * vprintf - function that helps us detrmine if we have hit a %
- * @fmt: format elps determine when we hit a format specifier
- * @args: gives us a list of our unknown argument
- * Return: returns an int value
- */
-int vprintf(const char *fmt, va_list args)
-{
-	int state = 1;
-	int rval = 0;
-
-	if (state == 1)
-	{
-		switch (*fmt)
-		{
-			case 'c': {
-				rval = print_char(args);
-				break;
-				}
-			case 's': {
-				rval = print_string(args);
-				break;
-				}
-			default: {
-				state = 0;
-				_putchar('%');
-				_putchar(*fmt);
-				rval++;
-				break;
-				}
-		}
-	}
-	return (rval);
-}
-
 /**
  * _printf - prints out different data types based on format specifiers
  * such as %s (String), %c (Char)
@@ -80,31 +37,38 @@ int vprintf(const char *fmt, va_list args)
  */
 int _printf(const char *format, ...)
 {
-	int rval;
-	int state = 0;
+	int i;
+	int rval = 0;
 	va_list args;
 
 	if (format == NULL)
 		return (-1);
 	va_start(args, format);
-	while (*format)
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (state == 0)
+		if (format[i] != '%')
 		{
-			if (*format == '%')
+			if (format[i] == '\\' && format[i + 1] == 'n')
 			{
-				state = 1;
+				_putchar('\n');
+				i++;
 			} else
-			{
-				_putchar(*format);
-				rval++;
-			}
-		} else if (state == 1)
+				_putchar(format[i]);
+		} else if (format[i + 1] == 'c')
 		{
-			rval += vprintf(format, args);
-			state = 0;
-		}
-		format++;
+			print_char(args);
+			i++;
+		} else if (format[i + 1] == 's')
+		{
+			print_string(args);
+			i++;
+		} else if (format[i + 1] == '%')
+		{
+			_putchar('%');
+			i++;
+		} else
+			_putchar(format[i]);
+		rval++;
 	}
 	va_end(args);
 	printf("%d\n", rval);
