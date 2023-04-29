@@ -19,7 +19,7 @@ void _pstr(char *str)
 void print_int(va_list args)
 {
 	int argn = va_arg(args, int);
-	int d[20];
+	int d[20] = {0};
 	int a;
 	int b;
 	int is_negative = 0;
@@ -40,6 +40,7 @@ void print_int(va_list args)
 	if (is_negative)
 	{
 		_putchar('-');
+		a++;
 	}
 	for (b = a - 1; b >= 0; b--)
 	{
@@ -94,6 +95,7 @@ int _printf(const char *format, ...)
 	if (format == NULL)
 		return (-1);
 	va_start(args, format);
+
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] != '%')
