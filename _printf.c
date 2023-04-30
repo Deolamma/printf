@@ -30,7 +30,10 @@ void print_int(va_list args)
 		argn = -argn;
 	}
 	if (argn == 0)
+	{
 		_putchar('0');
+		return;
+	}
 	a = 0;
 	while (argn > 0)
 	{
@@ -40,7 +43,6 @@ void print_int(va_list args)
 	if (is_negative)
 	{
 		_putchar('-');
-		a++;
 	}
 	for (b = a - 1; b >= 0; b--)
 	{
