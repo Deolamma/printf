@@ -18,7 +18,7 @@ void _pstr(char *str)
  */
 void print_int(va_list args)
 {
-	int argn = va_arg(args, int);
+	long long long int argn = va_arg(args, long long long int);
 	int d[20] = {0};
 	int a;
 	int b;
